@@ -3,7 +3,6 @@ require 'sinatra/reloader'
 require_relative './lib/bookmark'
 
 class BookmarkManager < Sinatra::Base
-  enable :sessions 
   configure :development do
     register Sinatra::Reloader
   end
@@ -13,12 +12,11 @@ class BookmarkManager < Sinatra::Base
 
   get '/bookmarks' do
     @bookmarks = Bookmark.all
-    @bookmark = session[:bookmark]
     erb :index
   end
 
   post '/bookmarks' do
-    session[:bookmark] = params[:bookmark_url]
+    Bookmark.create(params[:bookmark_url])
     redirect '/bookmarks'
   end
 
