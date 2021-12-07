@@ -20,6 +20,14 @@ bundle
  To view bookmarks, navigate to `localhost:3000/bookmarks`
  To view bookmarks, navigate to `localhost:3000/bookmarks`.
 
+ ### To set up the test database
+
+ Connect to `psql` and create the `bookmark_manager_test` database:
+
+ ```
+ CREATE DATABASE bookmark_manager_test;
+ ```
+ 
  ### To run tests:
 
 ```
