@@ -1,16 +1,24 @@
 require_relative './database_connection'
 
 class Bookmark
+  attr_reader :id, :url, :title
+
+  def initialize(id:, title:, url:)
+    @id = id
+    @title = title
+    @url = url
+  end
+
   def self.all
     connect
     result = DatabaseConnection.query("SELECT * FROM bookmarks;")
-    result.map{|bookmark| bookmark["url"]}
+    result.map{|bookmark| Bookmark.new(id: bookmark['id'], title: bookmark['title'], url: bookmark['url']) }
   end
 
-
-  def self.create(url)
+  def self.create(url:, title:)
     connect
-    DatabaseConnection.query("INSERT INTO bookmarks (url) VALUES('#{url}');")
+    result = DatabaseConnection.query("INSERT INTO bookmarks (url, title) VALUES('#{url}', '#{title}') RETURNING id, title, url;")
+    Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
   end
 end
 

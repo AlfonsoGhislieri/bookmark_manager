@@ -2,26 +2,29 @@ require 'bookmark'
 require 'database_connection'
 
 describe Bookmark do
-  let(:subject) { described_class.new }
-
   describe '.all' do
     it 'returns a list of bookmarks' do
       connection = PG.connect(dbname: 'bookmark_manager_test')
-      connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com/');")
-      connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.google.com/');")
-      connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.destroyallsoftware.com/');")
+      bookmark = Bookmark.create(url: 'http://www.makersacademy.com/', title: 'Makers Academy')
+      Bookmark.create(url: 'http://www.google.com/', title: 'Google')
+      Bookmark.create(url: 'http://www.destroyallsoftware.com/', title: 'Destroy All Software')
 
-      expect(Bookmark.all).to include("http://www.makersacademy.com/")
-      expect(Bookmark.all).to include("http://www.google.com/")
-      expect(Bookmark.all).to include("http://www.destroyallsoftware.com/")
+      bookmarks = Bookmark.all
+
+      expect(bookmarks.length).to eq 3
+      expect(bookmarks.first).to be_a Bookmark
+      expect(bookmarks.first.id).to eq bookmark.id
+      expect(bookmarks.first.title).to eq 'Makers Academy'
+      expect(bookmarks.first.url).to eq 'http://www.makersacademy.com/'
     end
   end
 
   describe '.create' do
     it 'should add a new bookmark' do
       connection = PG.connect(dbname: 'bookmark_manager_test')
-      Bookmark.create('www.sherwin.com')
-      expect(Bookmark.all).to include "www.sherwin.com"
+      Bookmark.create(url: 'www.sherwin.com', title: 'Sherwin')
+      bookmarks = Bookmark.all
+      expect(bookmarks.first.url).to eq "www.sherwin.com"
     end
   end
 

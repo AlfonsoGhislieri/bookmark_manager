@@ -5,5 +5,13 @@
   <input type="text" name="bookmark_title">  
   <input type="submit" value="Submit">
 </form> 
-<h2><%= @bookmarks %></h2>
+<ul>
+  <% @bookmarks.each do |bookmark| %>
+    <li>
+      <a href="<%= bookmark.url %>">
+        <%= bookmark.title %>
+      </a>
+    </li>
+  <% end %>
+</ul>
 
