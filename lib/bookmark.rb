@@ -26,6 +26,14 @@ class Bookmark
     connect
     DatabaseConnection.query("DELETE FROM bookmarks WHERE id='#{id}'")
   end
+
+  def self.update(id:, url:"", title:"")
+    url = find_bookmark(id:id).url if url == ""
+    title = find_bookmark(id:id).title if title == ""
+    connection = connect
+    result = connection.exec_params("UPDATE bookmarks SET url =$1, title=$2 WHERE id =$3;", [url,title,id])
+  end
+
 end
 
 private 
@@ -36,4 +44,8 @@ def connect
   else
     DatabaseConnection.setup('bookmark_manager')
   end
+end
+
+def find_bookmark(id:)
+  Bookmark.all.find { |bookmark| bookmark.id == id }
 end

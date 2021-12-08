@@ -37,4 +37,21 @@ describe Bookmark do
     end
   end
 
+  describe '.update' do
+    it 'should update url' do
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+      bookmark = Bookmark.create(url: 'www.sherwin.com', title: 'Sherwin')
+      Bookmark.update(id: bookmark.id,url: 'www.alfonso.com')
+      expect(Bookmark.all[0].url).to eq('www.alfonso.com')
+    end
+    
+    it 'should update title' do
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+      bookmark = Bookmark.create(url: 'www.sherwin.com', title: 'Sherwin')
+      Bookmark.update(id: bookmark.id,title: 'Alfonso')
+      expect(Bookmark.all[0].title).to eq('Alfonso')
+    end
+
+  end
+
 end

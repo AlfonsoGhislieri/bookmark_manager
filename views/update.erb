@@ -1,8 +1,8 @@
 
 <h1>Bookmarks</h1>
 <form action="/bookmarks" method="post">
-  <input type="text" name="bookmark_url">
-  <input type="text" name="bookmark_title">  
+  <input type="text" onfocus="this.value=''" name="bookmark_url" value="Url">
+  <input type="text" onfocus="this.value=''" name="bookmark_title" value="Title">  
   <input type="submit" value="Submit">
 </form> 
 <ul>
@@ -16,10 +16,12 @@
         <input type="submit" value="Delete">
       </form>
       
-      <form action="/update" method="get">
-        <input type="submit" value="Update">
+      <form action="/bookmarks/<%= bookmark.id %>" method="post">
+        <input id="hidden" type="hidden" name="_method" value="patch">
+        <input type="text" name="url_updated">
+        <input type="text" name="title_updated">
+        <input type="submit" value="refresh">
       </form>
-
     </li>
   <% end %>
 </ul>
