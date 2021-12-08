@@ -28,4 +28,13 @@ describe Bookmark do
     end
   end
 
+  describe '.delete' do
+    it 'should delete a bookmark' do
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+      bookmark = Bookmark.create(url: 'www.sherwin.com', title: 'Sherwin')
+      Bookmark.delete(id: bookmark.id)
+      expect(Bookmark.all.empty?).to be_truthy
+    end
+  end
+
 end
