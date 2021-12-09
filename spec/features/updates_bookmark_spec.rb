@@ -17,7 +17,6 @@ feature 'update bookmark' do
     fill_in :bookmark_title, with: 'Google'
     click_button 'Submit'
     click_button 'Update'
-
     fill_in :title_updated, with: 'Alfonso'
     click_button 'refresh'
     expect(page).to have_content('Alfonso')
