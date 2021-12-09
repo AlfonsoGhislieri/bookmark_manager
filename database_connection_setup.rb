@@ -1,4 +1,3 @@
-
 require_relative 'lib/database_connection.rb'
 
 if ENV['ENVIRONMENT'] == 'test' 

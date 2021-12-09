@@ -1,3 +1,4 @@
+require 'uri'
 require_relative './database_connection'
 
 class Bookmark
@@ -15,6 +16,7 @@ class Bookmark
   end
 
   def self.create(url:, title:)
+    return false if !valid_url(url) 
     DatabaseConnection.query("INSERT INTO bookmarks (url, title) VALUES($1, $2);", [url, title]) 
   end
 
@@ -26,6 +28,12 @@ class Bookmark
     url = find_bookmark(id:id).url if url == ""
     title = find_bookmark(id:id).title if title == ""
     DatabaseConnection.query("UPDATE bookmarks SET url =$1, title=$2 WHERE id =$3;", [url,title,id])
+  end
+
+  def self.valid_url(url)
+    valid_endings = ['com','org','net','co.uk']
+    uri = URI(url)
+    uri.scheme != nil && valid_endings.include?(url.split('.').last)
   end
 
 end
