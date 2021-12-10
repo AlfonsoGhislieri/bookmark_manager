@@ -1,1 +1,2 @@
 CREATE TABLE bookmarks(id SERIAL PRIMARY KEY, url VARCHAR(60));
+CREATE TABLE comments(id SERIAL PRIMARY KEY, text VARCHAR(240), bookmarks_id int, CONSTRAINT fk_BookmarksComments FOREIGN KEY (bookmarks_id) REFERENCES bookmarks(id));

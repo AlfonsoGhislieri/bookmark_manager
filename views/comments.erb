@@ -20,17 +20,12 @@
         <input type="submit" value="Update">
       </form>
 
-      <form action="/comments" method="get">
-        <input type="submit" value="Add Comment">
+      <form action="/bookmarks/<%= bookmark.id %>" method="post">
+        <input name="comment" type="text" />
+        <input value="Submit Comment" type="submit" />
       </form>
 
-    <ul>
-      <% bookmark.comments(bookmark.id).each do |comment| %>
-        <li>
-            <%= comment %>
-        </li>
-      <% end %>
-    <ul>
+    </li>
   <% end %>
 </ul>
 

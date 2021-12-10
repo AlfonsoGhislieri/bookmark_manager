@@ -3,6 +3,8 @@ require "pg"
 def setup_test_database
   connection = PG.connect(dbname: "bookmark_manager_test")
 
-  connection.exec("truncate bookmarks;")
+  connection.exec("
+    TRUNCATE TABLE bookmarks RESTART IDENTITY CASCADE;
+    TRUNCATE TABLE comments RESTART IDENTITY CASCADE;")
 end
 

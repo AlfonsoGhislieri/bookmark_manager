@@ -50,4 +50,18 @@ describe Bookmark do
 
   end
 
+  describe '.comment' do
+    it 'should return array from comments' do
+
+      Bookmark.create(url: 'http://www.sherwin.com', title: 'Sherwin')
+      bookmark = Bookmark.new(id: Bookmark.all.first.id, title: Bookmark.all.first.title, url: Bookmark.all.first.url )
+
+      DatabaseConnection.query(
+        "INSERT INTO comments (text, bookmarks_id) VALUES('Test comment', $1)",
+        [bookmark.id])
+
+      expect(bookmark.comments(bookmark.id)).to eq(["Test comment"])
+    end
+  end
+
 end

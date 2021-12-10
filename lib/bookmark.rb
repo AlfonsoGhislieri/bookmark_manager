@@ -21,7 +21,8 @@ class Bookmark
   end
 
   def self.delete(id:)
-    DatabaseConnection.query("DELETE FROM bookmarks WHERE id='#{id}'")
+    DatabaseConnection.query("DELETE FROM comments WHERE bookmarks_id='#{id}';")
+    DatabaseConnection.query("DELETE FROM bookmarks WHERE id='#{id}';")
   end
 
   def self.update(id:, url:"", title:"")
@@ -34,6 +35,11 @@ class Bookmark
     valid_endings = ['com','org','net','co.uk']
     uri = URI(url)
     uri.scheme != nil && valid_endings.include?(url.split('.').last)
+  end
+
+  def comments(id)
+    res = DatabaseConnection.query("SELECT text FROM comments WHERE bookmarks_id = $1;", [id])
+    res.map { |comment| comment['text'] }
   end
 
 end

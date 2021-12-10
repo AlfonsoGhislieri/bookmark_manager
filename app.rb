@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sinatra/flash'
+require_relative './lib/comment'
 require_relative './lib/bookmark'
 require_relative './database_connection_setup'
 
@@ -38,6 +39,16 @@ class BookmarkManager < Sinatra::Base
     
   patch '/bookmarks/:id' do
     Bookmark.update(id: params[:id], title: params[:title_updated], url: params[:url_updated])
+    redirect '/bookmarks'
+  end
+
+  get '/comments' do
+    @bookmarks = Bookmark.all
+    erb(:comments)
+  end
+  
+  post '/bookmarks/:id' do
+    Comment.create(text: params[:comment], bookmark_id: params[:id])
     redirect '/bookmarks'
   end
 
